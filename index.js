@@ -3,6 +3,7 @@ const express = require('express')
 require('colour');
 const app = express()
 const connectDB = require('./config/config');
+const cors = require('cors');
 require('dotenv').config();
 const Product = require('./model');
 const router = require('./Routes/route');
@@ -10,6 +11,9 @@ const port = process.env.PORT || 3000;
 
 // mongodb connection
 connectDB();
+
+// Use CORS middleware
+app.use(cors())
 
 // Middleware to parse incoming request body
 app.use(express.urlencoded({ extended: true }));
