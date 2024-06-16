@@ -5,7 +5,7 @@ const app = express()
 const connectDB = require('./config/config');
 const cors = require('cors');
 require('dotenv').config();
-const Product = require('./model');
+const Product = require('./model/model');
 const router = require('./Routes/route');
 const port = process.env.PORT || 3000;
 
@@ -23,6 +23,10 @@ app.use("/api/routes", router);
 
 app.get('/', (req, res) =>{
     res.sendFile(__dirname + '/./views/upload.html')
+});
+
+app.get('/indian', (req, res) =>{
+  res.sendFile(__dirname + '/./views/indianUpload.html')
 });
 
 app.post('/upload', async (req, res) => {
