@@ -3,7 +3,6 @@ const express = require('express')
 require('colour');
 const app = express()
 const connectDB = require('./config/config');
-const connectIndianDB = require('./config/indianConfig');
 const cors = require('cors');
 require('dotenv').config();
 const Product = require('./model/model');
@@ -12,7 +11,6 @@ const port = process.env.PORT || 3000;
 
 // mongodb connection
 connectDB();
-connectIndianDB();
 
 // Use CORS middleware
 app.use(cors())
