@@ -28,4 +28,15 @@ const uploadIndianProduct = async (req, res) => {
     }
 };
 
-module.exports = { getIndianProducts, uploadIndianProduct };
+// New function for searching Indian products
+const searchIndianProducts = async (req, res) => {
+    const query = req.query.q;
+    try {
+      const products = await IndianProduct.find({ name: { $regex: query, $options: 'i' } });
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+module.exports = { getIndianProducts, uploadIndianProduct, searchIndianProducts };

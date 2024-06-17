@@ -9,6 +9,19 @@ const getProducts = async (req, res) =>{
     }
 };
 
+// Search products by name
+const searchProducts = async (req, res) => {
+    try {
+        const query = req.query.q;
+        const products = await Product.find({ 
+            name: new RegExp(query, 'i') // Perform a case-insensitive search
+        });
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
 // Assuming your route is '/products/:id'
 const getOneProduct = async (req, res) => {
     try {
@@ -25,4 +38,4 @@ const getOneProduct = async (req, res) => {
     }
 };
 
-module.exports = { getProducts, getOneProduct };
+module.exports = { getProducts, getOneProduct, searchProducts };
