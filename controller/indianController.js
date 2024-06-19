@@ -11,19 +11,27 @@ const getIndianProducts = async (req, res) => {
 
 const uploadIndianProduct = async (req, res) => {
     try {
-        const { name, description, image } = req.body;
-        if (!name || !description || !image) {
+        const { name, description, image, category } = req.body;
+
+        // Check for required fields
+        if (!name || !description || !image || !category) {
             return res.status(400).json({ message: 'Please fill in all required fields' });
         }
+
+        // Create new IndianProduct instance
         const newProduct = new IndianProduct({
-             name,
-             description,
-             image: image
-             });
+            name,
+            description,
+            image,
+            category,
+        });
+
+        // Save the new Indian product
         await newProduct.save();
+
         res.json({ message: 'Indian product uploaded successfully!' });
     } catch (error) {
-        console.error(error);
+        console.error('Error uploading Indian product:', error);
         res.status(500).json({ message: 'Error uploading Indian product' });
     }
 };

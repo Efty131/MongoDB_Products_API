@@ -30,28 +30,30 @@ app.get('/indian', (req, res) =>{
 });
 
 app.post('/upload', async (req, res) => {
-    try {
-        const name = req.body.name;
-        const description = req.body.description;
-        const imageUrl = req.body.image; // Assuming the URL is provided in the form
-    
-        if (!name || !description || !imageUrl) {
+  try {
+      const { name, description, image, category } = req.body; // Destructure fields from req.body
+
+      // Check for required fields
+      if (!name || !description || !image || !category) {
           return res.status(400).json({ message: 'Please fill in all required fields' });
-        }
-    
-        const newProduct = new Product({
+      }
+
+      // Create new Product instance
+      const newProduct = new Product({
           name,
           description,
-          image: imageUrl
-        });
-    
-        await newProduct.save();
-    
-        res.json({ message: 'Product uploaded successfully!' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error uploading product' });
-      }
+          image,
+          category, // Include category field
+      });
+
+      // Save the new product
+      await newProduct.save();
+
+      res.json({ message: 'Product uploaded successfully!' });
+  } catch (error) {
+      console.error('Error uploading product:', error);
+      res.status(500).json({ message: 'Error uploading product' });
+  }
 });
 
 app.listen(port, () => {  
