@@ -2,16 +2,29 @@
 const User = require('../model/userModel');
 
 const saveUser = async (req, res) => {
-  const { uid, email, displayName, photoURL } = req.body;
   try {
+    const { uid, email, displayName, photoURL } = req.body;
+
+    // Check if the user already exists
     let user = await User.findOne({ uid });
+
     if (!user) {
-      user = new User({ uid, email, displayName, photoURL });
+      // Create a new user if not exists
+      user = new User({
+        uid,
+        email,
+        displayName,
+        photoURL
+      });
+
       await user.save();
     }
-    res.status(200).send(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    // Send back the MongoDB ObjectId
+    res.status(200).json({ objectId: user._id });
+  } catch (error) {
+    console.error('Error saving user', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
