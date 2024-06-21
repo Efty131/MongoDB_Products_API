@@ -15,11 +15,12 @@ const createPost = async (req, res) => {
 // Get all posts
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate('uid', 'displayName photoURL');
+    const posts = await Post.find().sort({ createdAt: -1 }).populate('uid', 'displayName photoURL');
     res.status(200).send(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 module.exports = { createPost, getPosts };
